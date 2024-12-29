@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Komentar dan Jam</title>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(120deg, #fff, #0078d4);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #333;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      width: 450px;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+      box-sizing: border-box;
+      animation: fadeIn 0.8s ease-out; /* Animasi fade in pada container */
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.1);
+      z-index: -1;
+      border-radius: 12px;
+      box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 28px;
+      color: #0078d4;
+      margin-bottom: 20px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      animation: slideUp 0.5s ease-out; /* Animasi judul */
+    }
+
+    .comment-section {
+      margin-top: 25px;
+      text-align: left;
+      max-height: 280px;
+      overflow-y: auto;
+      padding-right: 10px;
+      animation: fadeIn 0.8s ease-out; /* Animasi komentar */
+    }
+
+    .comment-form {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    input[type="text"] {
+      width: 70%;
+      padding: 12px;
+      font-size: 16px;
+      border: 2px solid #0078d4;
+      border-radius: 8px;
+      outline: none;
+      box-sizing: border-box;
+      margin-bottom: 15px;
+      transition: all 0.3s ease;
+    }
+
+    input[type="text"]:focus {
+      border: 2px solid #005a9c;
+      box-shadow: 0 0 5px rgba(0, 120, 212, 0.8);
+    }
+
+    button {
+      padding: 12px 25px;
+      background-color: #0078d4;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      animation: slideUp 0.5s ease-out;
+    }
+
+    button:hover {
+      background-color: #005a9c;
+      transform: translateY(-3px);
+    }
+
+    .current-time {
+      margin-top: 30px;
+      font-size: 18px;
+      color: #444;
+    }
+
+    #time {
+      font-size: 24px;
+      font-weight: 600;
+      color: #0078d4;
+      margin-top: 5px;
+    }
+
+    .comment {
+      margin-bottom: 15px;
+      padding: 12px;
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+      animation: slideIn 0.6s ease-out; /* Animasi gerakan komentar */
+    }
+
+    .comment .user {
+      font-weight: bold;
+      color: #0078d4;
+      font-size: 16px;
+    }
+
+    .comment .time {
+      font-size: 12px;
+      color: #888;
+    }
+
+    .comment .text {
+      margin-top: 8px;
+      font-size: 14px;
+      color: #444;
+    }
+
+    .back-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #0078d4;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      animation: slideUp 0.5s ease-out;
+    }
+
+    .back-button:hover {
+      background-color: #005a9c;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideUp {
+      0% {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideIn {
+      0% {
+        transform: translateX(20px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Halaman Komentar</h1>
+
+    <div class="comment-section">
+      <h2>Komentar:</h2>
+      <ul id="commentList">
+        <!-- Komentar akan ditampilkan di sini -->
+      </ul>
+    </div>
+
+    <div class="comment-form">
+      <input type="text" id="commentInput" placeholder="Tulis komentar...">
+      <button onclick="addComment()">Kirim</button>
+    </div>
+
+    <div class="current-time">
+      <h3>Waktu Saat Ini:</h3>
+      <p id="time"></p>
+    </div>
+
+    <button class="back-button" onclick="goBack()">Kembali ke Halaman Utama</button>
+  </div>
+
+  <script>
+    const fakeNames = ["JohnDoe", "JaneSmith", "Jamew", "Samantha", "Alex", "Chris", "Ravi", "Katrina"];
+
+    function getComments() {
+      const storedComments = localStorage.getItem("comments");
+      if (storedComments) {
+        return JSON.parse(storedComments);
+      }
+      return [
+        { user: getRandomName(), comment: "anjayy aman cuyy yang penting jangan ragu, btw banyakin diskon min wkwkwk", time: "12:00:00" },
+        { user: getRandomName(), comment: "sering seringg upload mass, biarr makin rame ", time: "12:30:00" }
+      ];
+    }
+
+    function saveComments(comments) {
+      localStorage.setItem("comments", JSON.stringify(comments));
+    }
+
+    function getCurrentTime() {
+      return new Date().toLocaleTimeString();
+    }
+
+    function getRandomName() {
+      return fakeNames[Math.floor(Math.random() * fakeNames.length)];
+    }
+
+    function displayComments() {
+      const commentList = document.getElementById("commentList");
+      const comments = getComments();
+      commentList.innerHTML = ''; 
+
+      comments.forEach(comment => {
+        const listItem = document.createElement("li");
+        listItem.classList.add("comment");
+        listItem.innerHTML = `
+          <span class="user">${comment.user}:</span>
+          <p class="text">${comment.comment}</p>
+          <span class="time">${comment.time}</span>
+        `;
+        commentList.appendChild(listItem);
+      });
+    }
+
+    function addComment() {
+  const commentInput = document.getElementById("commentInput");
+  const newComment = commentInput.value.trim();
+  const currentTime = getCurrentTime();
+  const comments = getComments();
+
+  if (newComment) {
+    comments.push({ user: "You", comment: newComment, time: currentTime });
+    saveComments(comments); 
+    displayComments(); 
+    commentInput.value = ''; 
+
+    // Scroll ke bawah setelah komentar baru ditambahkan
+    const commentSection = document.querySelector(".comment-section");
+    commentSection.scrollTop = commentSection.scrollHeight;
+  }
+}
+
+
+    function updateTime() {
+      const timeElement = document.getElementById("time");
+      timeElement.textContent = getCurrentTime();
+    }
+
+    setInterval(updateTime, 1000);
+
+    displayComments();
+    updateTime();
+
+    function goBack() {
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

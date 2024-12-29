@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Growtopia Shop</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #0078d4 30%, #fff 70%);
+    background-size: 400% 400%;
+    animation: gradientShift 6s ease infinite;
+    color: #333;
+    overflow-x: hidden;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+
+        header {
+            background: linear-gradient(135deg, #0078d4, #005bb5);
+            color: #fff;
+            text-align: center;
+            padding: 70px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            animation: fadeInDown 1s ease-out;
+        }
+
+        header p {
+            font-size: 1.4rem;
+            margin-top: 15px;
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            animation: floating 6s infinite alternate ease-in-out;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: floating 8s infinite alternate ease-in-out;
+        }
+
+        @keyframes floating {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(20px);
+            }
+        }
+
+        @keyframes fadeInDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(50px);
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: calc(var(--order) * 0.2s);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-card .image {
+            background: #0078d4;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: bold;
+            animation: fadeInDown 1s ease forwards;
+        }
+
+        .product-card .content {
+            padding: 20px;
+        }
+
+        .product-card .content h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .product-card .content p {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .product-card .content .price {
+            margin-top: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #0078d4;
+        }
+
+        .comment-btn, .contact-section a {
+            display: inline-block;
+            background: #0078d4;
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: background 0.3s ease, transform 0.3s ease;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .comment-btn:hover, .contact-section a:hover {
+            background: #005bb5;
+            transform: translateY(-3px);
+        }
+
+        .contact-section {
+            text-align: center;
+            margin: 60px 0;
+        }
+
+        .contact-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #333;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .contact-section p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #666;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Shop Bahan Auto By UbisoftAuto</h1>
+        <p>Semua kebutuhan Growtopia Auto dalam satu tempat!</p>
+    </header>
+
+    <div class="container">
+        <div class="product-grid">
+            <div class="product-card" style="--order: 1;">
+                <div class="image">Akun Bot</div>
+                <div class="content">
+                    <h2>Acc Legacy</h2>
+                    <p>Akun Growtopia berkualitas tinggi untuk membantu proses otomatisasi.</p>
+                    <p class="price">900 wl / akun</p>
+                </div>
+            </div>
+            <div class="product-card" style="--order: 2;">
+                <div class="image">License</div>
+                <div class="content">
+                    <h2>License</h2>
+                    <p>Lisensi resmi untuk menjalankan software Growtopia secara aman dan legal.</p>
+                    <p class="price">400wl / lisensi</p>
+                </div>
+            </div>
+            <div class="product-card" style="--order: 3;">
+                <div class="image">Socks</div>
+                <div class="content">
+                    <h2>Socks</h2>
+                    <p>Proxy cepat dan stabil untuk meningkatkan konektivitas bot Anda.</p>
+                    <p class="price">900wl / bulan</p>
+                </div>
+            </div>
+            <div class="product-card" style="--order: 4;">
+                <div class="image">RDP</div>
+                <div class="content">
+                    <h2>RDP</h2>
+                    <p>Remote Desktop Protocol dengan performa tinggi untuk menjalankan bot 24/7.</p>
+                    <p class="price">700 wl / bulan</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="contact-section">
+        <h2>Hubungi Kami</h2>
+        <p>Untuk pemesanan atau informasi lebih lanjut, silakan hubungi kami melalui DM tiktok.</p>
+        <a href="https://www.tiktok.com/@ubisoftauto?_t=8sTiYxBSDah&_r=1" target="_blank">Chat Sekarang</a>
+        <a href="komen.html" class="comment-btn">Komentar</a>
+    </div>
+
+    <footer>
+        <p>© 2024 Auto Growtopia Shop Ubisoft. All rights reserved.</p>
+    </footer>
+</body>
+</html>
